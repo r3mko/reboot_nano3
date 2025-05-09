@@ -9,7 +9,6 @@
  *   -d <days>      Uptime threshold in days (default: 21)
  *   -D             Enable debug logging to stderr
  *   -h             Show help and exit
- *
  */
 
 #include <stdio.h>
@@ -28,6 +27,7 @@
 
 static int interval_minutes = 60;
 static int max_days = 21;
+
 static int debug_mode = 0;
 
 void print_usage(const char *prog) {

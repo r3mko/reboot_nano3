@@ -24,4 +24,3 @@ jobs:
         with:
           name: reboot_nano3
           path: ./reboot_nano3
-
