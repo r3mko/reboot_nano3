@@ -44,7 +44,8 @@ riscv64-linux-gnu-gcc -O2 -static \
 # Copy it to your system
 scp reboot_nano3 admin@canaan:~
 
-# Install to /usr/sbin (requires root)
+# Install to /usr/sbin (requires sshd and root)
+ssh admin@canaan 
 sudo install -m 755 reboot_nano3 /usr/sbin/
 ```
 
@@ -59,6 +60,8 @@ Usage: ./reboot_nano3 [-i interval_minutes] [-d max_days] [-D] [-h]
   -D             Enable debug logging
   -h             Show this help and exit
 ```
+
+---
 
 ## Init Script
 
