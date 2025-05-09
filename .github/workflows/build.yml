@@ -1,0 +1,26 @@
+
+name: Build Reboot Daemon
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Install RISC-V cross-compiler
+        run: sudo apt-get update && sudo apt-get install -y gcc-riscv64-linux-gnu
+      - name: Build
+        run: |
+          riscv64-linux-gnu-gcc \
+            -O2 \
+            -march=rv64imafdcvxthead \
+            -mabi=lp64d \
+            -o reboot_nano3 reboot_nano3.c
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: reboot_nano3
+          path: reboot_nano3
+
