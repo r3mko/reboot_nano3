@@ -72,10 +72,6 @@ long read_uptime_seconds() {
 }
 
 int main(int argc, char *argv[]) {
-    if (argc == 1) {
-        print_usage(argv[0]);
-        return 0;
-    }
     int opt;
     while ((opt = getopt(argc, argv, "i:d:Dh")) != -1) {
         switch (opt) {
@@ -91,6 +87,7 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "Starting daemon:\nCheck interval = %d min, max uptime = %d days\n",
         interval_minutes, max_days);
     } else {
+        fprintf(stderr, "Starting daemon:\nCheck interval = %d min, max uptime = %d days\nRun `%s -h` for help.\n",
         daemonize();
     }
 
