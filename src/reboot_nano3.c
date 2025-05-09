@@ -5,8 +5,8 @@
  * and reboots if uptime exceeds -d days.
  *
  * Usage: uptime_reboot_daemon [-i interval_minutes] [-d max_days] [-D] [-h]
- *   -i <minutes>   Polling interval in minutes (default: 5)
- *   -d <days>      Uptime threshold in days (default: 7)
+ *   -i <minutes>   Polling interval in minutes (default: 60)
+ *   -d <days>      Uptime threshold in days (default: 21)
  *   -D             Enable debug logging to stderr
  *   -h             Show help and exit
  *
@@ -88,6 +88,7 @@ int main(int argc, char *argv[]) {
         interval_minutes, max_days);
     } else {
         fprintf(stderr, "Starting daemon:\nCheck interval = %d min, max uptime = %d days\nRun `%s -h` for help.\n",
+        interval_minutes, max_days);
         daemonize();
     }
 
