@@ -10,8 +10,6 @@
  *   -D             Enable debug logging to stderr
  *   -h             Show help and exit
  *
- * Compile for RISC-V RV64IMAFDCVXTHead with:
- * riscv64-linux-gnu-gcc -O2 -march=rv64imafdcvxthead -mabi=lp64d -o uptime_daemon uptime_reboot_daemon.c
  */
 
 #include <stdio.h>
@@ -28,8 +26,8 @@
 #include <getopt.h>
 #include <time.h>
 
-static int interval_minutes = 5;
-static int max_days = 7;
+static int interval_minutes = 60;
+static int max_days = 21;
 static int debug_mode = 0;
 
 void print_usage(const char *prog) {
@@ -74,6 +72,10 @@ long read_uptime_seconds() {
 }
 
 int main(int argc, char *argv[]) {
+    if (argc == 1) {
+        print_usage(argv[0]);
+        return 0;
+    }
     int opt;
     while ((opt = getopt(argc, argv, "i:d:Dh")) != -1) {
         switch (opt) {
@@ -85,8 +87,12 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    if (!debug_mode) daemonize();
-    if (debug_mode) fprintf(stderr, "Starting daemon: interval=%d min, max=%d days\n", interval_minutes, max_days);
+    if (debug_mode) {
+        fprintf(stderr, "Starting daemon:\n  Check interval = %d min, max uptime = %d days\n",
+        interval_minutes, max_days);
+    } else {
+        daemonize();
+    }
 
     while (1) {
         long up_sec = read_uptime_seconds();
@@ -107,4 +113,3 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
-
