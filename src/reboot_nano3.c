@@ -20,6 +20,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <signal.h>
 #include <sys/reboot.h>
 #include <linux/reboot.h>
 #include <string.h>
@@ -46,13 +47,13 @@ void daemonize() {
     if (pid < 0) exit(EXIT_FAILURE);
     if (pid > 0) exit(EXIT_SUCCESS);
     if (setsid() < 0) exit(EXIT_FAILURE);
-    signal(SIGCHLD, SIG_IGN);
-    signal(SIGHUP, SIG_IGN);
+    (void)signal(SIGCHLD, SIG_IGN);
+    (void)signal(SIGHUP, SIG_IGN);
     pid = fork();
     if (pid < 0) exit(EXIT_FAILURE);
     if (pid > 0) exit(EXIT_SUCCESS);
     umask(0);
-    chdir("/");
+    (void)chdir("/");
     for (int fd = sysconf(_SC_OPEN_MAX); fd >= 0; fd--) close(fd);
 }
 
@@ -98,7 +99,6 @@ int main(int argc, char *argv[]) {
                 if (debug_mode) fprintf(stderr, "Uptime exceeded %d days, rebooting now...\n", max_days);
                 sync();
                 reboot(RB_AUTOBOOT);
-                // If reboot fails
                 if (debug_mode) perror("reboot");
             }
         }
