@@ -15,6 +15,7 @@ jobs:
         run: |
           riscv64-linux-gnu-gcc \
             -O2 \
+            -static \
             -mcpu=thead-c906 \
             -mabi=lp64d \
             -o reboot_nano3 src/reboot_nano3.c
