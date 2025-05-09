@@ -88,7 +88,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (debug_mode) {
-        fprintf(stderr, "Starting daemon:\n  Check interval = %d min, max uptime = %d days\n",
+        fprintf(stderr, "Starting daemon:\nCheck interval = %d min, max uptime = %d days\n",
         interval_minutes, max_days);
     } else {
         daemonize();
