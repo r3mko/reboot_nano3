@@ -4,10 +4,11 @@
  * A Linux daemon that checks system uptime every -i minutes,
  * and reboots if uptime exceeds -d days.
  *
- * Usage: uptime_reboot_daemon [-i interval_minutes] [-d max_days] [-D] [-h]
+ * Usage: uptime_reboot_daemon [-i interval_minutes] [-d max_days] [-D] [-v] [-h]
  *   -i <minutes>   Polling interval in minutes (default: 60)
  *   -d <days>      Uptime threshold in days (default: 21)
  *   -D             Enable debug logging
+ *   -v             Show version and exit
  *   -h             Show help and exit
  */
 
@@ -25,6 +26,8 @@
 #include <getopt.h>
 #include <time.h>
 
+#define VERSION "0.2"
+
 static int interval_minutes = 60;
 static int max_days = 21;
 
@@ -32,12 +35,14 @@ static int debug_mode = 0;
 
 void print_usage(const char *prog) {
     fprintf(stderr,
-        "Usage: %s [-i interval_minutes] [-d max_days] [-D] [-h]\n"
+        "%s v%s\n"
+        "Usage: %s [-i interval_minutes] [-d max_days] [-D] [-v] [-h]\n"
         "  -i <minutes>   Polling interval in minutes (default: %d)\n"
         "  -d <days>      Uptime threshold in days (default: %d)\n"
         "  -D             Enable debug logging\n"
+        "  -v             Show version and exit\n"
         "  -h             Show this help and exit\n",
-        prog, interval_minutes, max_days);
+        prog, VERSION, prog, interval_minutes, max_days);
 }
 
 void daemonize() {
@@ -78,11 +83,14 @@ int main(int argc, char *argv[]) {
     }
     
     int opt;
-    while ((opt = getopt(argc, argv, "i:d:Dh")) != -1) {
+    while ((opt = getopt(argc, argv, "i:d:Dvh")) != -1) {
         switch (opt) {
             case 'i': interval_minutes = atoi(optarg); break;
             case 'd': max_days = atoi(optarg); break;
             case 'D': debug_mode = 1; break;
+            case 'v':
+                fprintf(stderr, "%s v%s\n", argv[0], VERSION);
+                return EXIT_SUCCESS;
             case 'h': print_usage(argv[0]); return EXIT_SUCCESS;
             default: print_usage(argv[0]); return EXIT_FAILURE;
         }
