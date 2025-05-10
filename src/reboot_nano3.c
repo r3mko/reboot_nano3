@@ -5,6 +5,7 @@
  * and reboots if uptime exceeds -d days.
  *
  * Usage: uptime_reboot_daemon [-i interval_minutes] [-d max_days] [-D] [-v] [-h]
+ *
  *   -i <minutes>   Polling interval in minutes (default: 60)
  *   -d <days>      Uptime threshold in days (default: 21)
  *   -D             Enable debug logging
@@ -35,8 +36,8 @@ static int debug_mode = 0;
 
 void print_usage(const char *prog) {
     fprintf(stderr,
-        "%s v%s\n"
-        "Usage: %s [-i interval_minutes] [-d max_days] [-D] [-v] [-h]\n"
+        "%s v%s\n\n"
+        "Usage: %s [-i interval_minutes] [-d max_days] [-D] [-v] [-h]\n\n"
         "  -i <minutes>   Polling interval in minutes (default: %d)\n"
         "  -d <days>      Uptime threshold in days (default: %d)\n"
         "  -D             Enable debug logging\n"
