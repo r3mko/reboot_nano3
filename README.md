@@ -41,7 +41,7 @@ riscv64-linux-gnu-gcc -O2 -static \
   -mcpu=thead-c906 -mabi=lp64d \
   -o reboot_nano3 src/reboot_nano3.c
 
-# Copy it to your system
+# Copy it to your system (requires sshd)
 scp reboot_nano3 admin@canaan:~
 
 # Install to /usr/sbin (requires sshd and root)
@@ -73,3 +73,9 @@ I use this really simple init script: (TODO: make this better)
 
 /usr/sbin/reboot_nano3 -i 60 -d 24
 ```
+
+---
+
+## Resources
+
+- [nanojb project](https://orca.pet/nanojb/)
