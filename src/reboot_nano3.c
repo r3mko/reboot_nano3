@@ -96,13 +96,13 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "Error: This daemon must be run as root.\n");
         return EXIT_FAILURE;
     }
+
+    fprintf(stderr, "Starting daemon:\nCheck interval = %d min, max uptime = %d days\n", interval_minutes, max_days);
     
-    if (debug_mode) {
-        fprintf(stderr, "Starting daemon:\nCheck interval = %d min, max uptime = %d days\n",
-        interval_minutes, max_days);
-    } else {
-        fprintf(stderr, "Starting daemon:\nCheck interval = %d min, max uptime = %d days\nRun `%s -h` for help.\n",
-        interval_minutes, max_days, argv[0]);
+    if (!debug_mode) {
+        if (argc == 1) {
+            fprintf(stderr, "Run `%s -h` for help.\n", argv[0]);
+        }
         daemonize();
     }
 
