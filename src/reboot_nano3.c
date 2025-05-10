@@ -77,11 +77,6 @@ long read_uptime_seconds() {
 }
 
 int main(int argc, char *argv[]) {
-    if (geteuid() != 0) {
-        fprintf(stderr, "Error: This daemon must be run as root.\n");
-        return EXIT_FAILURE;
-    }
-    
     int opt;
     while ((opt = getopt(argc, argv, "i:d:Dvh")) != -1) {
         switch (opt) {
@@ -96,6 +91,11 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    if (geteuid() != 0) {
+        fprintf(stderr, "Error: This daemon must be run as root.\n");
+        return EXIT_FAILURE;
+    }
+    
     if (debug_mode) {
         fprintf(stderr, "Starting daemon:\nCheck interval = %d min, max uptime = %d days\n",
         interval_minutes, max_days);
