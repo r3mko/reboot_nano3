@@ -7,7 +7,7 @@
  * Usage: uptime_reboot_daemon [-i interval_minutes] [-d max_days] [-D] [-h]
  *   -i <minutes>   Polling interval in minutes (default: 60)
  *   -d <days>      Uptime threshold in days (default: 21)
- *   -D             Enable debug logging to stderr
+ *   -D             Enable debug logging
  *   -h             Show help and exit
  */
 
@@ -72,14 +72,19 @@ long read_uptime_seconds() {
 }
 
 int main(int argc, char *argv[]) {
+    if (geteuid() != 0) {
+        fprintf(stderr, "Error: This daemon must be run as root.\n");
+        return EXIT_FAILURE;
+    }
+    
     int opt;
     while ((opt = getopt(argc, argv, "i:d:Dh")) != -1) {
         switch (opt) {
             case 'i': interval_minutes = atoi(optarg); break;
             case 'd': max_days = atoi(optarg); break;
             case 'D': debug_mode = 1; break;
-            case 'h': print_usage(argv[0]); return 0;
-            default: print_usage(argv[0]); return 1;
+            case 'h': print_usage(argv[0]); return EXIT_SUCCESS;
+            default: print_usage(argv[0]); return EXIT_FAILURE;
         }
     }
 
@@ -109,5 +114,5 @@ int main(int argc, char *argv[]) {
         sleep(interval_minutes * 60);
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }
