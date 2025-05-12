@@ -13,21 +13,17 @@
  *   -h             Show help and exit
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <signal.h>
-#include <sys/reboot.h>
-#include <linux/reboot.h>
-#include <string.h>
-#include <errno.h>
-#include <getopt.h>
-#include <time.h>
+#include <stdio.h>        /* fprintf, perror, FILE* */
+#include <stdlib.h>       /* exit, atoi, EXIT_… */
+#include <unistd.h>       /* fork, setsid, chdir, close, sysconf, getopt, geteuid, sleep */
+#include <sys/types.h>    /* pid_t */
+#include <sys/stat.h>     /* umask */
+#include <signal.h>       /* signal, SIGCHLD, SIGHUP */
+#include <sys/reboot.h>   /* reboot(2) prototype */
+#include <linux/reboot.h> /* RB_AUTOBOOT */
+#include <errno.h>        /* errno (for perror) */
 
-#define VERSION "0.2"
+#define VERSION "0.3"
 
 static int interval_minutes = 60;
 static int max_days = 21;
