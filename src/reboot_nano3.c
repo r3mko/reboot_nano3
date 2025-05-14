@@ -22,12 +22,14 @@
 #include <sys/reboot.h>   /* reboot(2) prototype */
 #include <linux/reboot.h> /* RB_AUTOBOOT */
 #include <errno.h>        /* errno (for perror) */
+#include <limits.h>       /* INT_MIN, INT_MAX (integer bounds) */
 
 #define VERSION "0.3"
+#define DEFAULT_INTERVAL  60
+#define DEFAULT_MAX_DAYS  21
 
-static int interval_minutes = 60;
-static int max_days = 21;
-
+static int interval_minutes = DEFAULT_INTERVAL;
+static int max_days = DEFAULT_MAX_DAYS;
 static int debug_mode = 0;
 
 void print_usage(const char *prog) {
@@ -57,6 +59,22 @@ void daemonize() {
     for (int fd = sysconf(_SC_OPEN_MAX); fd >= 0; fd--) close(fd);
 }
 
+static int safe_strtol(const char *nptr) {
+    char *endptr;
+    errno = 0;
+    long val = strtol(nptr, &endptr, 10);
+
+    if (errno == ERANGE || val < INT_MIN || val > INT_MAX) {
+        fprintf(stderr, "Error: numeric overflow/underflow parsing '%s'\n", nptr);
+        exit(EXIT_FAILURE);
+    }
+    if (endptr == nptr || *endptr != '\0') {
+        fprintf(stderr, "Error: invalid integer input '%s'\n", nptr);
+        exit(EXIT_FAILURE);
+    }
+    return (int)val;
+}
+
 long read_uptime_seconds() {
     FILE *f = fopen("/proc/uptime", "r");
     if (!f) {
@@ -77,12 +95,10 @@ int main(int argc, char *argv[]) {
     int opt;
     while ((opt = getopt(argc, argv, "i:d:Dvh")) != -1) {
         switch (opt) {
-            case 'i': interval_minutes = atoi(optarg); break;
-            case 'd': max_days = atoi(optarg); break;
+            case 'i': interval_minutes = safe_strtol(optarg); break;
+            case 'd': max_days = safe_strtol(optarg); break;
             case 'D': debug_mode = 1; break;
-            case 'v':
-                fprintf(stderr, "%s v%s\n", argv[0], VERSION);
-                return EXIT_SUCCESS;
+            case 'v': fprintf(stderr, "%s v%s\n", argv[0], VERSION); return EXIT_SUCCESS;
             case 'h': print_usage(argv[0]); return EXIT_SUCCESS;
             default: print_usage(argv[0]); return EXIT_FAILURE;
         }
