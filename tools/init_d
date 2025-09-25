@@ -33,3 +33,27 @@ fi
 #!/bin/sh
 
 /usr/sbin/reboot_nano3 -i 60 -d 24
+
+===
+
+[admin@canaan ~ ]#cat /etc/init.d/S91set_fan.sh
+#!/bin/sh
+# Set fan speed (range).
+
+HOST="127.0.0.1"
+PORT="4028"
+JSON='{"command":"ascset","parameter":"0,fan-spd,40-100"}'
+
+(
+    sleep 60
+    {
+        printf '%s\n' "$JSON"
+        sleep 1
+    } | telnet "$HOST" "$PORT" 2>/dev/null | grep -q '"STATUS":"S"'
+
+    if [ $? -eq 0 ]; then
+        echo "Fan command acknowledged: ASC 0 set OK"
+    else
+        echo "Fan command failed or no response"
+    fi
+) &
