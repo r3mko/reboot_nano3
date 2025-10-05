@@ -8,6 +8,7 @@ cp "$FILE" "$FILE.bak.$(date +%F_%H-%M-%S)"
 
 # Apply sed replacements
 sed -i \
+  -e 's|width: calc((100vw - 2.3rem)/4 - 2px);|width: calc((100vw - 2.3rem)/4 - 1px);|' \
   -e 's|<ul class="menu-ch">|<ul class="menu-ch" style="display: none;">|' \
   -e 's|<div class="switch"><span switchid="fan_all" onclick="fanSwitch(this);">RPM</span>&nbsp;/<span|<!-- <div class="switch"><span switchid="fan_all" onclick="fanSwitch(this);">RPM</span>&nbsp;/<span|' \
   -e 's|switchid="fan_speed" onclick="fanSwitch(this);">%</span></div>|switchid="fan_speed" onclick="fanSwitch(this);">%</span></div> -->|' \
