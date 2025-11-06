@@ -2,6 +2,9 @@
 
 A small Linux daemon for embedded RISC-V boards that checks `/proc/uptime` every **-i** minutes and reboots the system if uptime exceeds **-d** days.
 
+> [!IMPORTANT]
+> This project is based on firmware 24071801_42c628d
+
 ---
 
 ## Table of Contents
