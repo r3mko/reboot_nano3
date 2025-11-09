@@ -11,14 +11,18 @@
 LOG_DIR="/data/log"
 TMP_LOG_DIR="/tmp/zlog"
 
-# Ensure /tmp/zlog exists before creating the symlink
-mkdir -p "$TMP_LOG_DIR"
+(
+    sleep 60
 
-# Check if /data/log is not a symlink
-if [ ! -L "$LOG_DIR" ]; then
-    rm -rf "$LOG_DIR"
-    ln -s "$TMP_LOG_DIR" "$LOG_DIR"
-fi
+    # Ensure /tmp/zlog exists before creating the symlink
+    mkdir -p "$TMP_LOG_DIR"
+
+    # Check if /data/log is not a symlink
+    if [ ! -L "$LOG_DIR" ]; then
+        rm -rf "$LOG_DIR"
+        ln -s "$TMP_LOG_DIR" "$LOG_DIR"
+    fi
+) &
 
 ===
 
