@@ -68,3 +68,5 @@ sub_bootstrap="s#\"$OLD_BOOTSTRAP\"#\"$NEW_BOOTSTRAP\" integrity=\"$BOOTSTRAP_IN
 update_file "$UPGRADE" \
   -e "$sub_jquery" \
   -e "$sub_bootstrap"
+
+echo "Changes applied. Backups saved as $OVERVIEW.bak and $UPGRADE.bak"
