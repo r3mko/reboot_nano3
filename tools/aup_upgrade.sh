@@ -24,4 +24,6 @@ printf "[ OK ]\n\n"
         -e 's/\]/]\n/g' \
         -e 's/,/,\n/g'
 
+rm /opt/upgrade_aup
+
 exit 0
