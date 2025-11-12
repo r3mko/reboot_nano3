@@ -18,7 +18,7 @@
 TMP_LOG_DIR="/tmp/zlog"
 
 # Ensure /tmp/zlog exists
-mkdir -p "$TMP_LOG_DIR"
+/bin/mkdir -p "$TMP_LOG_DIR"
 
 ===
 
@@ -49,7 +49,7 @@ JSON='{"command":"ascset","parameter":"0,fan-spd,40-100"}'
     {
         printf '%s\n' "$JSON"
         sleep 1
-    } | telnet "$HOST" "$PORT" 2>/dev/null | grep -q '"STATUS":"S"'
+    } | /usr/bin/telnet "$HOST" "$PORT" 2>/dev/null | /bin/grep -q '"STATUS":"S"'
 
     if [ $? -eq 0 ]; then
         echo "Fan command acknowledged: ASC 0 set OK"
