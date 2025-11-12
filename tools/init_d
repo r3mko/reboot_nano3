@@ -1,4 +1,4 @@
-[admin@canaan ~ ]#cat S41no_ipv6.sh
+[admin@canaan ~ ]#cat /etc/init.d/S41no_ipv6.sh
 #!/bin/sh
 
 /sbin/sysctl -w net.ipv6.conf.wlan0.disable_ipv6=1
