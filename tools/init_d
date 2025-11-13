@@ -1,11 +1,11 @@
-[admin@canaan ~ ]#cat /etc/init.d/S41no_ipv6.sh
+[admin@canaan ~ ]# cat /etc/init.d/S41no_ipv6.sh
 #!/bin/sh
 
 /sbin/sysctl -w net.ipv6.conf.wlan0.disable_ipv6=1
 
 ===
 
-[admin@canaan ~ ]#cat /etc/init.d/S42wifi.sh
+[admin@canaan ~ ]# cat /etc/init.d/S42wifi.sh
 #!/bin/sh
 
 # Disable Wi-Fi power saving (avoids Realtek SDIO sleep stalls)
@@ -14,19 +14,24 @@
 # Increase MAC retry limit for better stability under brief interference
 /sbin/iwconfig wlan0 retry limit 15
 
+# Disable Realtek internal power management
+echo 0 > /sys/module/8189fs/parameters/rtw_power_mgnt
+echo 0 > /sys/module/8189fs/parameters/rtw_smart_ps
+echo 0 > /sys/module/8189fs/parameters/rtw_ips_mode
+
 # Force SDIO device to stay active (prevent bus autosuspend)
 echo on > /sys/bus/sdio/devices/mmc0:0001:1/power/control
 
 ===
 
-[admin@canaan ~ ]#cat /etc/init.d/S50sshd.sh
+[admin@canaan ~ ]# cat /etc/init.d/S50sshd.sh
 #!/bin/sh
 
 /usr/sbin/sshd
 
 ===
 
-[admin@canaan ~ ]#cat /etc/init.d/S51zlog.sh
+[admin@canaan ~ ]# cat /etc/init.d/S51zlog.sh
 #!/bin/sh
 
 TMP_LOG_DIR="/tmp/zlog"
@@ -36,21 +41,21 @@ TMP_LOG_DIR="/tmp/zlog"
 
 ===
 
-[admin@canaan ~ ]#cat /etc/init.d/S81noswupdate.sh
+[admin@canaan ~ ]# cat /etc/init.d/S81noswupdate.sh
 #!/bin/sh
 
 ( sleep 60 && /usr/bin/killall swupdate ) &
 
 ===
 
-[admin@canaan ~ ]#cat /etc/init.d/S90reboot_nano3.sh
+[admin@canaan ~ ]# cat /etc/init.d/S90reboot_nano3.sh
 #!/bin/sh
 
 /usr/sbin/reboot_nano3 -i 60 -d 24
 
 ===
 
-[admin@canaan ~ ]#cat /etc/init.d/S91set_fan.sh
+[admin@canaan ~ ]# cat /etc/init.d/S91set_fan.sh
 #!/bin/sh
 # Set fan speed (range).
 
