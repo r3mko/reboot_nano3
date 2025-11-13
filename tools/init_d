@@ -5,6 +5,20 @@
 
 ===
 
+[admin@canaan ~ ]#cat /etc/init.d/S42wifi.sh
+#!/bin/sh
+
+# Disable Wi-Fi power saving (avoids Realtek SDIO sleep stalls)
+/sbin/iwconfig wlan0 power off
+
+# Increase MAC retry limit for better stability under brief interference
+/sbin/iwconfig wlan0 retry limit 15
+
+# Force SDIO device to stay active (prevent bus autosuspend)
+echo on > /sys/bus/sdio/devices/mmc0:0001:1/power/control
+
+===
+
 [admin@canaan ~ ]#cat /etc/init.d/S50sshd.sh
 #!/bin/sh
 
